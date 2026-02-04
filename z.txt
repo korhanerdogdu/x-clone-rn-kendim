@@ -1,0 +1,447 @@
+https://www.youtube.com/watch?v=uBdpV9GGlzo&t=22247s
+
+cd backend npm init -y diyorsun package.json dosyası oluşuyor.
+npm install express@5.1.0 mongoose@8.16.0 dotenv@16.5.0 cors@2.8.5
+npm install @clerk/express@1.7.0 @arcjet/node@1.0.0-beta.8 @arcjet/inspect@1.0.0-beta.8
+
+
+arcjet detect bot için falan işe yarıyor, Rate limiting falan ekliyoruz.
+
+
+cd mobile npx create-expo-app@latest .
+
+
+
+git bash ile çalıştır.
+
+
+
+ilk cd mobile npx create-expo-app@latest . yaptığımızda aşağıdaki dosya yapısını elde ediyoruz sonra rm -rf .git diyoruz.
+Çünkü expo oluşturuken git de initialize edilerek geliyor.
+
+
+
+Klasörler:
+
+.vscode/
+
+app/
+assets/
+components/
+constants/
+hooks/
+node_modules/
+scripts/
+
+Dosyalar:
+
+.gitignore
+app.json
+eslint.config.js
+package-lock.json
+package.json
+README.md
+tsconfig.json
+
+
+sonra bişiler install ede ede yeni dosyalar oluştu
+
+
+
+cd backend
+npm install
+npm run dev
+
+
+cd mobile
+npm install
+npx expo start
+
+
+
+https://clerk.com/docs/expressjs/getting-started/quickstart
+
+bu linkten aşağıdaki keyleri alıyorsun. Dentwise için de böyle yapabilirsin.
+Önce tabi ana clerk den application oluşturman lazım sonra burdan key'i alacaksın
+
+CLERK_PUBLISHABLE_KEY=pk_test_bGFzdGluZy1tYWNrZXJlbC00NS5jbGVyay5hY2NvdW50cy5kZXYk
+CLERK_SECRET_KEY=sk_test_FXliI4oz8I5yrXxHE7sEzu36VewmFFscdfUiLgiEu8
+
+
+cloudinary korhanerdogdu2003 maili ile girdim.
+
+
+mongodb+srv://korhanerdogdu_db_user:HIKVeWN2mF7i0M4c@cluster0.lrkkwih.mongodb.net/x_db?appName=Cluster0
+
+burda x_db yaptık db adını yoksa test db diye atancaktı otomatik.
+yani browse collections dediğimizde x_db adında bi database göreceğiz.
+
+
+sonra allow acces from anywhere dedik mongodb nin sayfasından.
+
+
+
+
+
+
+
+
+EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=<your_clerk_publishable_key>
+EXPO_PUBLIC_API_URL=<your_backend_api_url>
+
+
+burdaki clerk publishable key direk clerk'in kendi sayfasından alıyorsun:
+https://dashboard.clerk.com/apps/app_39D5mNmBWqeagHBpUdh9MnvDPgr/instances/ins_39D5mO4Jwxt0FLpW45rzSaF6IOI
+
+
+multer file upload için gerekli bir package.
+
+
+next.js ile expo aynı mantık. React üzerine kurulmuş bir framework ikisi de. Uygulama geliltirmeyi kolaylaştırmak için.
+
+
+
+
+
+
+local host da api göndermek çalışmaz çünkü expo kendi local hostu zanneder ve backendi kendi telefonda çalıştırır
+Ama backend benim bilgisayarımda bu yüzden domain almak lazım vercel ile. Yani backendi domaine açmamız lazım
+
+
+
+
+vercel.json dosyası oluşturuyoruz ve içine hazır kodu yapıştırıyoruz projemiz için.
+
+  "env": 
+    "NODE_ENV": "production"
+
+
+NODE_ENV production modunda olcak diyoruz çünkü artık domain alıyoruz.
+
+
+
+normal projemizdeki env dosyasının içeriğini kopyalıyoruz:
+
+
+
+PORT=5001
+NODE_ENV=development
+
+CLERK_PUBLISHABLE_KEY=pk_test_bGFzdGluZy1tYWNrZXJlbC00NS5jbGVyay5hY2NvdW50cy5kZXYk
+CLERK_SECRET_KEY=sk_test_FXliI4oz8I5yrXxHE7sEzu36VewmFFscdfUiLgiEu8
+
+MONGO_URI=mongodb+srv://korhanerdogdu_db_user:HIKVeWN2mF7i0M4c@cluster0.lrkkwih.mongodb.net/x_db?appName=Cluster0
+
+ARCJET_ENV=development
+ARCJET_KEY=ajkey_01kgmkq61jezmsrrkb95v4wzhy
+
+CLOUDINARY_CLOUD_NAME=dxbql9z9y
+CLOUDINARY_API_KEY=156298746127455
+CLOUDINARY_API_SECRET=bJQ3DMeLpL1Vxg9hJdUUrnVDIKQ
+
+
+yani şu an yukardaki bizim mavcut env dosyamız local çalıştırmak için.
+
+
+bu kopyaladığımız içeriği vercel'e yapıştıracağız.
+tabi önce backend kodları tamamlanmış git reposunu vercel'e import ediyoruz. 
+projeyi forkladım kendi githubımda tepo olarak gözüksün diye. Normalde kendi repomu push etmem lazım githuba ve öyle vercel'e import etmem lazım.
+
+(import repo yapıp içindeki backend folder'ını seçiyoruz sadece vercelde)
+
+sonra yapıştırdıktan sonra, yapıştırdıklarınının içinden;
+
+NODE_ENV=development
+ARCJET_ENV=development
+
+ifadelerini siliyoruz. Yani diyoruz ki bu sildiğimiz değişkenlerdeki değerleri vercel.json dosyasından al, böylece prod'a çıkabilellim.
+
+ARCJET_ENV için dokumantasyonda prod'a alınca ARCJET_ENV=development ifadesini silin diyor. O yüzden sildik aslında.
+
+
+error: "Bot access denied" gibi bir ifade alacaksın vercell tarafında bu normal, çalışıyor demek.
+
+x-clone-rn-snowy.vercel.app buraya git ve "Hello from server" yazısını görünce ok.
+
+yani nihayet apimizi deployladık *********************************************************************************************
+
+
+
+sadece apiyi deploy ettik vercel ile, mobili deploy etmedik.
+
+Böylece expo, bu deploy attiğimiz apiyi kullanacak/ istek atcak.
+
+
+
+
+Env’yi Vercel’e yapıştırdıktan sonra deploy ortamında artık uygulama .env dosyana değil,
+Vercel’in “Environment Variables” ekranına kaydettiğin değerlere bakar.
+
+- Local’de: .env okunur (dotenv / proje kurulumu nasıl ise).
+- Vercel’de: .env dosyası genelde kullanılmaz; Vercel runtime’da process.env.* değerlerini panelden inject eder.
+
+1) Vercel paneline yapıştırırken NODE_ENV=development satırını silmek ne demek?
+Evet, doğru mantık: Vercel’de production deploy’da “development” gibi davranmak istemezsin.
+Senin vercel.json içinde zaten:
+
+  "env": { "NODE_ENV": "production" }
+
+yazıyor. Bu da Vercel’in NODE_ENV’i production yapmasını amaçlıyor.
+Bu yüzden panelde NODE_ENV=development bırakmak çelişir.
+
+En sağlıklısı:
+- Vercel panelinde NODE_ENV hiç vermemek (silmek)
+- (Gerekirse tek bir yerden “production” sabitlemek; genelde zaten Vercel prod’da prod gibi davranır.)
+
+ARCJET_ENV=development da aynı mantık:
+Production deploy’da Arcjet env’i de “production” olmalı (veya hiç vermeyip Arcjet’in önerdiği şekilde yönetmek).
+
+2) server.js’de “export default app;” ne anlama geliyor? (Vercel için mi?)
+Evet, bu serverless (Vercel) kullanımına uyum sağlar.
+Vercel @vercel/node ile çalıştırırken kendi HTTP server’ını açar ve senin dosyandan bir “handler” bekler.
+Express’te bu pratikte:
+- export default app;
+
+demek “Express app’i Vercel’in çalıştıracağı handler olarak dışarı veriyorum” anlamına gelir.
+
+Local’de klasik kullanım ise:
+- app.listen(PORT)
+
+Serverless ortamda çoğu zaman app.listen yazmazsın, çünkü server’ı Vercel yönetir.
+
+3) Artık .env içeriklerime bakılmayacak mı?
+- Deploy ortamında (Vercel’de): Evet, .env değil, Vercel panelindeki env’ler okunur.
+- Local’de: .env yine kullanılmaya devam eder.
+
+4) vercel.json’da env değerleri düzeltilir mi?
+Genelde:
+- Secret/key/db uri gibi değerler -> Vercel Dashboard Environment Variables (en doğru yer)
+- vercel.json’daki "env" -> minimal tutulur (çoğu projede hiç gerekmez)
+
+vercel.json içindeki "env": { "NODE_ENV": "production" } = “Vercel’de koşarken process.env.NODE_ENV production olsun” demek.
+
+
+
+
+
+
+
+
+Bu vercel.json dosyası, projeni Vercel üzerinde “Node.js Serverless Function” olarak deploy etmek için
+Vercel’e şu ayarları söyler:
+
+1) "version": 2
+- Vercel’in v2 konfigürasyon formatını kullandığını belirtir.
+
+2) "builds"
+[
+  {
+    "src": "src/server.js",
+    "use": "@vercel/node"
+  }
+]
+- Vercel’e şunu der: “src/server.js dosyasını bir Node.js serverless function (Vercel Function) gibi build et.”
+- "@vercel/node" builder’ı, bu dosyayı Vercel’in serverless runtime’ında çalışacak hale getirir.
+- Yani bu proje statik site değil; arka tarafta çalışan bir Node/Express API gibi deploy edilir.
+
+3) "routes"
+[
+  {
+    "src": "/(.*)",
+    "dest": "src/server.js"
+  }
+]
+- Routing kuralı: “Gelen tüm istekleri (/(.*) = her path) src/server.js’e yönlendir.”
+- Sonuç: /api, /users, /posts, /anything gibi bütün endpoint’ler tek entry dosyası olan server.js üzerinden
+  karşılanır (Express route’ların ne tanımladıysan ona göre cevap döner).
+- Bu, backend API’yi tek bir serverless function entrypoint’i üzerinden çalıştırma yaklaşımıdır.
+
+4) "env": { "NODE_ENV": "production" }
+- Deploy edilen ortamda process.env.NODE_ENV değerini "production" olarak set etmeyi amaçlar.
+- Böylece kod içinde NODE_ENV kontrolü yapan yerler (ör. log seviyesi, app.listen koşulu, vb.)
+  production modda çalışır.
+
+Özet:
+Bu dosya, Vercel’e “src/server.js’i Node serverless olarak deploy et ve gelen tüm istekleri buna yönlendir; ******************
+ortamı production kabul et” der.
+
+
+
+
+
+
+
+
+
+
+
+vercele env dosyalarını manuel olarak yükledikten sonra deploy olmuş server ordaki env değerlerini nasıl kullanacak? 
+normal routerlar controllerlar ona erişebilecek mi? Nasıl?
+
+
+Evet. Vercel’e env’leri “Project Settings → Environment Variables” kısmından girince,
+deploy edilen backend (senin src/server.js ile başlayan serverless function’ların) bu değerleri
+runtime ortamında otomatik olarak kullanır.
+
+Temel mantık:
+- Vercel, function çalışmadan önce ortam değişkenlerini (env) OS seviyesinde set eder.
+- Node.js/Express tarafında env okumak = process.env.DEGISKEN_ADI
+
+Bu yüzden router/controller/service gibi dosyaların hepsi (aynı Node process içinde) şunu yaparak
+env’lere erişebilir:
+
+  process.env.MONGO_URI
+  process.env.CLERK_SECRET_KEY
+  process.env.CLOUDINARY_API_SECRET
+  vb.
+
+“Normal routerlar/controllerlar erişebilecek mi?”
+- Evet, çünkü bu dosyalar Node tarafından import ediliyor ve aynı serverless runtime içinde çalışıyor.
+- process.env global bir objedir; projedeki her dosyadan erişilebilir.
+
+Nasıl oluyor? (adım adım)
+1) Sen Vercel paneline env’leri giriyorsun.
+2) Vercel bu env’leri ilgili ortama (Development/Preview/Production) kaydediyor.
+3) Request geldiğinde Vercel src/server.js function’ını ayağa kaldırıyor.
+4) Node process başlarken env’ler hazır geliyor; process.env dolu oluyor.
+5) Kodun (server.js, db bağlantısı, controllerlar, cloudinary config vs.) process.env okuduğu anda
+   bu değerleri alıp kullanıyor.
+
+.env dosyası ne zaman kullanılır?
+- Local’de: dotenv.config() gibi bir şeyle .env dosyası okunur.
+- Vercel’de: genelde .env okumazsın; çünkü env’ler zaten Vercel tarafından sağlanır.
+  (Ayrıca .env dosyasını repoya koymak iyi değildir.)
+
+Dikkat edilmesi gereken 2 şey:
+1) Env isimleri birebir aynı olmalı
+   - Kod process.env.MONGO_URI bekliyorsa Vercel’de değişken adı tam “MONGO_URI” olmalı.
+
+2) Build zamanı vs runtime zamanı
+   - Backend Node function’larında env genelde runtime’da okunur (sorun yok).
+   - Frontend build’lerinde env bazen build anında gömülür (bu ayrı konu).
+
+
+
+
+
+
+benim aşağıda kodum var:
+
+import dotenv from "dotenv";
+
+dotenv.config();
+
+export const ENV = {
+  PORT: process.env.PORT,
+  NODE_ENV: process.env.NODE_ENV,
+  MONGO_URI: process.env.MONGO_URI,
+  CLERK_PUBLISHABLE_KEY: process.env.CLERK_PUBLISHABLE_KEY,
+  CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
+  CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+  CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+  CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+  ARCJET_KEY: process.env.ARCJET_KEY,
+};
+
+
+ Local’de: dotenv.config() => .env dosyasından process.env doldurur.
+- Vercel’de: process.env zaten Vercel tarafından doldurulur; dotenv şart değil ama engel de değil.
+
+vercelde process.env dolu geliyor biz .env içindekini vercele kopyaladığımız zaman. Olay bu
+
+Router/controller/service gibi tüm kodlar process.env veya ENV.* üzerinden aynı şekilde çalışır,
+sadece değerin kaynağı localde .env, Vercel’de Vercel dashboard olur.
+
+
+
+
+
+******************************************************************************************************************************
+ÖZET:
+
+
+
+
+ben mesela database içi aşağıdaki dosyada env.js dosyasını import etmişim. Şimdi api deploy olunca bu nasıl çalışcak?
+
+
+
+import dotenv from "dotenv";
+
+dotenv.config();
+
+export const ENV = {
+  PORT: process.env.PORT,
+  NODE_ENV: process.env.NODE_ENV,
+  MONGO_URI: process.env.MONGO_URI,
+  CLERK_PUBLISHABLE_KEY: process.env.CLERK_PUBLISHABLE_KEY,
+  CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
+  CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+  CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+  CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+  ARCJET_KEY: process.env.ARCJET_KEY,
+};
+
+
+
+Deploy olunca da aynı şekilde çalışacak.
+
+Neden?
+- Vercel’de runtime başlarken Vercel, panelde tanımladığın env’leri otomatik olarak process.env içine koyar.
+- Senin env.js dosyan da zaten ENV objesini process.env’den üretiyor:
+
+  ENV.MONGO_URI = process.env.MONGO_URI
+
+Bu yüzden API deploy edilince akış şöyle olur:
+
+1) Vercel’e istek gelir → Vercel src/server.js serverless function’ını ayağa kaldırır.
+2) O anda Node runtime’da process.env zaten doludur (Vercel’in env’leri).
+3) Kod "./env.js" import edince env.js çalışır:
+   - dotenv.config() (genelde Vercel’de .env dosyası olmadığı için bir şey yüklemez)
+   - ENV objesini process.env’den oluşturur.
+4) connectDB çağrıldığında:
+   - mongoose.connect(ENV.MONGO_URI) çalışır
+   - ENV.MONGO_URI, Vercel’deki MONGO_URI değeridir
+   - MongoDB Atlas’a bağlanır.
+
+Yani deploy olunca “local .env”e bakmak gibi bir durum yok:
+- Local’de MONGO_URI kaynağı .env (dotenv)
+- Vercel’de MONGO_URI kaynağı Vercel dashboard env
+
+Önemli notlar:
+- Vercel panelinde değişken adı tam “MONGO_URI” olmalı (birebir).
+- Eğer ENV.MONGO_URI undefined geliyorsa %99 sebep:
+  (1) Vercel’de env yanlış isimle girilmiş, veya
+  (2) env’ler yanlış ortama (Preview yerine Production gibi) girilmiş,
+  (3) deploy sonrası yeniden build/deploy yapılmamış.
+
+Özet:
+Bu connectDB dosyası, deploy’da da aynı şekilde çalışır çünkü ENV.MONGO_URI yine process.env’den okunur,
+sadece process.env’nin dolma kaynağı Vercel olur.
+
+
+anladmım tamam
+
+***************************************************************************************************************************
+
+
+burda apiyi deploy ettik sadece
+normalde web uygulamalrında falan tek seferde tüm uygulama deploy ediliyor.
+
+
+
+tanstack query yani axios kullanıyoruz frontende de.
+
+
+npm i axios @tanstack/react-query install ediyoruz
+
+
+x-clone-rn-snowy.vercel.app vercel in verdiği domain bu,
+
+
+EXPO_PUBLIC_API_URL = x-clone-rn-snowy.vercel.app/api
+
+biz ise böyle tanımlıyoruz: const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL;
+
+
+
